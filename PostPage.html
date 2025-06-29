@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        html, body{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-image: url('finalfinal.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .heading{
+            color: rgb(219, 64, 37);
+        }
+        .Main{
+            color: rgb(74, 4, 187);
+        }
+        .publish{
+            margin-top: 5px;
+            background-color: firebrick;
+            color: beige;
+            border-radius: 5px;
+            border: none;
+            padding: 5px;
+            font-size: 15px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        input{
+            margin-bottom: 5px;
+            font-family: monospace;
+        }
+        .form-section{
+            width: 80%;
+            min-height: 400px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        form input, form textarea {
+            width: 100%; 
+            height: 50px; 
+            font-size: 16px; 
+            padding: 10px;
+            margin: 10px 0;
+        }
+        form textarea {
+            height: 120px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <header class="heading">
+        <center><h1 style="padding-bottom: 0px; margin-bottom: 2px;text-transform: uppercase;">My Blog</h1></center>
+        <nav>
+            <a href="BloggingPlatform.html" style="text-decoration: none;color: rgb(219, 64, 37);font-size: 13px;margin-top: 0px;font-weight: bolder;font-family: sans-serif;">HOME</a><br>
+            <a href="BlogPage.html" style="text-decoration: none;color: rgb(219, 64, 37);font-size: 13px;margin-top: 0px;font-weight: bolder;font-family: sans-serif;margin-top: 5px;">BLOGS</a>
+        </nav>
+    </header>
+    <main class="Main">
+        <section class="form-section">
+            <h2 style="font-family: Georgia, 'Times New Roman', Times, serif;font-weight: bold;font-style: italic;font-size: 25px;">Create new post</h2>
+            <form id="blog-form">
+                <input type="text" id="title" placeholder="Post Title" required><br>
+                <textarea id="content" placeholder="Write your post..." required></textarea><br>
+                <center>
+                    <button type="submit" class="publish">Publish</button>
+                </center>
+            </form>
+        </section>
+        <center>
+            <footer>
+                <p>&copy; 2025 Blog</p>
+            </footer>
+        </center>
+    </main>
+    <script>
+        document.getElementById("blog-form").addEventListener("submit",function(e){
+            e.preventDefault();
+            const title = document.getElementById("title").value.trim();
+            const content = document.getElementById("content").value.trim();
+            if(title==="" || content===""){
+                alert("Plese fill in both fields.");
+                return;
+            }
+            const newPost = {
+                title: title,
+                content: content
+            };
+            const posts = JSON.parse(localStorage.getItem("posts")) || [];
+            posts.push(newPost);
+            localStorage.setItem("posts",JSON.stringify(posts));
+            alert("Blog published successfully!");
+            window.location.href = "BlogPage.html";
+        });
+    </script>
+</body>
+</html>
