@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        html, body{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: url('blogpagebg.avif');
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+        }
+        h1{
+            text-align: center;
+            color: rgb(241, 143, 160);
+        }
+        a{
+            text-decoration: none;
+            color: rgb(241, 143, 160);
+            margin-bottom: 5px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 15px;
+            font-weight: bolder;
+        }
+        #postContainer{
+            max-width: 800px;
+            margin: auto;
+            
+        }
+        .post{
+            background-color: rgb(224, 203, 176);
+            min-height: 200px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px black;
+        }
+        .post h3{
+            margin: 0;
+            color: black;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .post p{
+            color: rgb(0, 0, 0);
+            overflow-wrap: break-word;
+        }
+        button{
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            background-color: rgb(47, 125, 214);
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        button.delete{
+            background-color: rgb(255, 38, 0);
+        }
+        button:hover{
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ALL BLOG POSTS</h1>
+        <nav>
+            <a href="BloggingPlatform.html">HOME</a><br>
+            <a href="PostPage.html">POST</a>
+        </nav>
+        <div id="postContainer"></div>
+    </header>
+    <script>
+        window.onload = function(){
+            const container = document.getElementById("postContainer");
+            let posts = JSON.parse(localStorage.getItem("posts")) || [];
+            function displayPosts(){
+                container.innerHTML = "";
+                posts.forEach((post, index) => {
+                    const postDiv = document.createElement("div");
+                    postDiv.className = "post";
+                    const title = document.createElement("h3");
+                    title.innerText = post.title;
+                    const content = document.createElement("p");
+                    content.innerText = post.content;
+                    const updatebtn = document.createElement("button");
+                    updatebtn.innerText  = "Update";
+                    updatebtn.onclick = function(){
+                        const newTitle = prompt("Enter new title: ", post.title);
+                        const newContent = prompt("Enter new content: ",post.content);
+                        if(newTitle && newContent){
+                            posts[index] = { title: newTitle, content:newContent };
+                            localStorage.setItem("posts", JSON.stringify(posts));
+                            displayPosts();
+                        }
+                    };
+                    const deletebtn = document.createElement("button");
+                    deletebtn.innerText = "Delete";
+                    deletebtn.className = "delete";
+                    deletebtn.onclick = function(){
+                        if(confirm("Are you sure you want to delete this post?")){
+                            posts.splice(index, 1);
+                            localStorage.setItem("posts", JSON.stringify(posts));
+                            displayPosts();
+                        }
+                    };
+                    postDiv.appendChild(title);
+                    postDiv.appendChild(content);
+                    postDiv.appendChild(updatebtn);
+                    postDiv.appendChild(deletebtn);
+                    container.append(postDiv);
+                });
+            }
+            displayPosts();
+        };
+    </script>
+</body>
+</html>
